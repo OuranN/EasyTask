@@ -1,1 +1,21 @@
-<h2>{{selectUser()?.name}}</h2>
+<section id="tasks">
+  <header>
+    <h2>{{selectUser()?.name}} Tasks</h2>
+    <menu>
+      <button>Add Task</button>
+    </menu>
+  </header>
+
+  <ul>
+   
+      @for (task of tasksUserSelected(); track task.id) {
+       <li>
+          <app-task [task]="task" [userId]="selectUser()!.id" ></app-task>
+       </li>
+      }
+      
+
+  </ul>
+</section>
+
+
