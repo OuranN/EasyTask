@@ -1,5 +1,6 @@
 import {Component, computed, EventEmitter, input, Input, Output, output  } from '@angular/core';
 import { DUMMY_USERS } from '../dummy-users';
+import { UserModel } from '../models/user.model';
 
 const RANDOM_INDEX = Math.floor(Math.random()*DUMMY_USERS.length);
 @Component({
@@ -11,16 +12,13 @@ const RANDOM_INDEX = Math.floor(Math.random()*DUMMY_USERS.length);
 
 export class User {
 
-  @Input({required:true}) id!:string;
-
-  avatar = input.required<string>();
-  name = input.required<string>();
-  imagePath = computed(()=> 'assets/users/'+this.avatar());
+  user = input.required<UserModel>();
+  imagePath = computed(()=> 'assets/users/'+this.user().avatar);
 
   select = output<string>();
   
   onSelectUser(){
-    this.select.emit(this.id)
+    this.select.emit(this.user().id)
   }
 
 }
