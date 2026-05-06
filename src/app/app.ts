@@ -4,7 +4,7 @@ import { HeaderComponent } from "./header/header.component";
 import { User } from "./user/user";
 import { Tasks } from './tasks/tasks';
 import { DUMMY_USERS } from './dummy-users';
-import { UserModel } from './models/user.model';
+import { UserModel } from './user/user.model';
 
 @Component({
   selector: 'app-root',

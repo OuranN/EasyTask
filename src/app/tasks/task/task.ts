@@ -1,5 +1,5 @@
-import { Component, input } from '@angular/core';
-import { UserModel } from '../../models/user.model';
+import { Component, input, output } from '@angular/core';
+
 
 @Component({
   selector: 'app-task',
@@ -10,4 +10,10 @@ import { UserModel } from '../../models/user.model';
 export class Task {
   task = input.required<TaskModel>();
   userId = input.required<string>();
+  
+  taskComplete = output<string>();
+  
+  onCompleteTask(){
+    this.taskComplete.emit(this.task().id)
+  }
 }
