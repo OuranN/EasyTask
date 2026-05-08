@@ -2,11 +2,12 @@ import {Component, computed, EventEmitter, input, Input, Output, output  } from 
 import { DUMMY_USERS } from '../dummy-users';
 import { UserModel } from './user.model';
 import { NgClass } from "../../../node_modules/@angular/common/types/_common_module-chunk";
+import { Card } from "../shared/card/card";
 
 const RANDOM_INDEX = Math.floor(Math.random()*DUMMY_USERS.length);
 @Component({
   selector: 'app-user',
-  imports: [],
+  imports: [Card],
   templateUrl: './user.html',
   styleUrl: './user.css',
 })

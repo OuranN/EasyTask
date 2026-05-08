@@ -2,6 +2,7 @@ import { Component, input, computed, signal } from '@angular/core';
 import { UserModel } from '../user/user.model';
 import { Task } from './task/task';
 import { NewTask } from "./new-task/new-task";
+import { NewTaskData } from './task/task.model';
 
 @Component({
   selector: 'app-tasks',
@@ -41,8 +42,7 @@ export class Tasks {
 
   selectUser = input.required<UserModel | undefined>();
 
-  tasksUserSelected = computed( ()=> this.tasks().filter((task) => task.userId===this.selectUser()!.id )
-  )
+  tasksUserSelected = computed( ()=> this.tasks().filter((task) => task.userId===this.selectUser()!.id ))
  
   onTaskComplete(taskId : string){
     this.tasks.set(this.tasks().filter((task)=> task.id !== taskId ))  ;
@@ -56,6 +56,20 @@ export class Tasks {
 
   onEndAddTask(){
     this.isAddingTask.set(false)
+  }
+
+  onAddTask(taskData: NewTaskData) {
+    
+    const newTask = {
+      id: new Date().getTime().toString(),
+      userId: this.selectUser()!.id,
+      title: taskData.title,
+      summary:  taskData.summary,
+      dueDate:  taskData.dueDate
+    }
+
+    this.tasks.update((currentTasks)=> [...currentTasks, newTask])
+    this.onEndAddTask();
   }
 
 }
