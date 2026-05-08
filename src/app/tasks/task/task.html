@@ -1,9 +1,11 @@
-
-<article>
+<app-card>
+  <article>
   <h2>{{task().title}}</h2>
-  <time datetime=""></time>
+  <time datetime="" >{{task().dueDate }}</time>
   <p>{{task().summary}}</p>
   <p class="actions">
     <button (click)="onCompleteTask()">Concluída</button>
   </p>
 </article>
+</app-card>
+  
