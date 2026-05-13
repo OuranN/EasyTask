@@ -1,6 +1,7 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NewTaskData } from '../task/task.model';
+import { TaskService } from '../tasks.service';
 
 @Component({
   selector: 'app-new-task',
@@ -10,15 +11,17 @@ import { NewTaskData } from '../task/task.model';
 })
 export class NewTask {
 
+  private taskService = inject(TaskService)
   enteredTitle = '';
   enteredSumary = '';
   enteredDate = '';
   
-  cancelAddTask = output();
+  close = output();
   add = output<NewTaskData>();
+  userId = input.required<string>()
 
   onCancelAddNewTask(){
-    this.cancelAddTask.emit()
+    this.close.emit()
   }
 
   onSubmit(){
@@ -27,7 +30,8 @@ export class NewTask {
           summary:  this.enteredSumary,
           dueDate:  this.enteredDate
     }
-    this.add.emit(task);
+    this.taskService.addTask(task, this.userId() )
+    this.close.emit(); //usado para fechar o add task
     
   }
 

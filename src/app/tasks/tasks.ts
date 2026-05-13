@@ -3,7 +3,7 @@ import { UserModel } from '../user/user.model';
 import { Task } from './task/task';
 import { NewTask } from "./new-task/new-task";
 import { NewTaskData } from './task/task.model';
-
+import { TaskService } from './tasks.service';
 @Component({
   selector: 'app-tasks',
   imports: [Task, NewTask],
@@ -13,63 +13,21 @@ import { NewTaskData } from './task/task.model';
 
 export class Tasks {
   isAddingTask = signal<boolean>(false)
-
-  tasks = signal([
-            {
-              id: 't1',
-              userId: 'u1',
-              title: 'Master Angular',
-              summary:
-                'Learn all the basic and advanced features of Angular & how to apply them.',
-              dueDate: '2025-12-31',
-            },
-            {
-              id: 't2',
-              userId: 'u3',
-              title: 'Build first prototype',
-              summary: 'Build a first prototype of the online shop website',
-              dueDate: '2024-05-31',
-            },
-            {
-              id: 't3',
-              userId: 'u3',
-              title: 'Prepare issue template',
-              summary:
-                'Prepare and describe an issue template which will help with project management',
-              dueDate: '2024-06-15',
-            },
-          ])
-
   selectUser = input.required<UserModel | undefined>();
+  
+  constructor(private taskService: TaskService){}
 
-  tasksUserSelected = computed( ()=> this.tasks().filter((task) => task.userId===this.selectUser()!.id ))
- 
-  onTaskComplete(taskId : string){
-    this.tasks.set(this.tasks().filter((task)=> task.id !== taskId ))  ;
-    console.log(this.tasks)
+  tasksUserSelected(){
+    const tasks = this.taskService.getUserTasks(this.selectUser()!.id)
+    return tasks();
   }
 
-  
   onStartAddTask(){
     this.isAddingTask.set(true)
   }
 
-  onEndAddTask(){
+  onCloseAddTask() {
     this.isAddingTask.set(false)
-  }
-
-  onAddTask(taskData: NewTaskData) {
-    
-    const newTask = {
-      id: new Date().getTime().toString(),
-      userId: this.selectUser()!.id,
-      title: taskData.title,
-      summary:  taskData.summary,
-      dueDate:  taskData.dueDate
-    }
-
-    this.tasks.update((currentTasks)=> [...currentTasks, newTask])
-    this.onEndAddTask();
   }
 
 }
